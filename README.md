@@ -8,4 +8,4 @@
 
 Модель данных:
 
-![Снимок экрана (56)](https://user-images.githubusercontent.com/89920118/214589204-2f35c58e-1935-42fa-8634-b7f1d0c48194.png)
+![Снимок экрана (104)](https://user-images.githubusercontent.com/89920118/224107012-dc7385ff-caf1-40b5-8586-fb14c74d6171.png)
