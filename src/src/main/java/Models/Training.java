@@ -4,10 +4,49 @@ import java.time.LocalDate;
 import java.util.Objects;
 
 public class Training {
-    private final int trainingID;
-    private final int userID;
-    private final int durationInMinutes;
-    private final LocalDate date;
+    private int trainingID;
+    private int userID;
+    private int durationInMinutes;
+    private LocalDate date;
+
+    public Training(int trainingID, int userID, int durationInMinutes, LocalDate date) {
+        this.trainingID = trainingID;
+        this.userID = userID;
+        this.durationInMinutes = durationInMinutes;
+        this.date = date;
+    }
+
+    public int getTrainingID() {
+        return trainingID;
+    }
+
+    public void setTrainingID(int trainingID) {
+        this.trainingID = trainingID;
+    }
+
+    public int getUserID() {
+        return userID;
+    }
+
+    public void setUserID(int userID) {
+        this.userID = userID;
+    }
+
+    public int getDurationInMinutes() {
+        return durationInMinutes;
+    }
+
+    public void setDurationInMinutes(int durationInMinutes) {
+        this.durationInMinutes = durationInMinutes;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -22,10 +61,4 @@ public class Training {
         return Objects.hash(trainingID, userID, durationInMinutes, date);
     }
 
-    public Training(int trainingID, int userID, int durationInMinutes, LocalDate date) {
-        this.trainingID = trainingID;
-        this.userID = userID;
-        this.durationInMinutes = durationInMinutes;
-        this.date = date;
-    }
 }
