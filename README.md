@@ -9,4 +9,4 @@
 Модель данных:
 
 
-![Снимок экрана (117)](https://user-images.githubusercontent.com/89920118/227264184-8797bc19-9fda-4de1-bb3f-2fd087bd3f2c.png)
+![Снимок экрана (117)](https://user-images.githubusercontent.com/89920118/227264478-9c1571f9-6c8a-4769-ba3d-ef254f9f35bc.png)
