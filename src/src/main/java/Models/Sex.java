@@ -3,20 +3,20 @@ package Models;
 import java.util.Objects;
 
 public class Sex {
-    private int sexID;
+    private int sexId;
     private char sex;
 
-    public Sex(int sexID, char sex) {
-        this.sexID = sexID;
+    public Sex(int sexId, char sex) {
+        this.sexId = sexId;
         this.sex = sex;
     }
 
-    public int getSexID() {
-        return sexID;
+    public int getSexId() {
+        return sexId;
     }
 
-    public void setSexID(int sexID) {
-        this.sexID = sexID;
+    public void setSexId(int sexId) {
+        this.sexId = sexId;
     }
 
     public char getSex() {
@@ -32,11 +32,11 @@ public class Sex {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Sex sex1 = (Sex) o;
-        return sexID == sex1.sexID && sex == sex1.sex;
+        return sexId == sex1.sexId && sex == sex1.sex;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(sexID, sex);
+        return Objects.hash(sexId, sex);
     }
 }

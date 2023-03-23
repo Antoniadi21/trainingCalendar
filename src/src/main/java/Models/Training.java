@@ -4,32 +4,32 @@ import java.time.LocalDate;
 import java.util.Objects;
 
 public class Training {
-    private int trainingID;
-    private int userID;
+    private int trainingId;
+    private int userId;
     private int durationInMinutes;
     private LocalDate date;
 
-    public Training(int trainingID, int userID, int durationInMinutes, LocalDate date) {
-        this.trainingID = trainingID;
-        this.userID = userID;
+    public Training(int trainingId, int userId, int durationInMinutes, LocalDate date) {
+        this.trainingId = trainingId;
+        this.userId = userId;
         this.durationInMinutes = durationInMinutes;
         this.date = date;
     }
 
-    public int getTrainingID() {
-        return trainingID;
+    public int getTrainingId() {
+        return trainingId;
     }
 
-    public void setTrainingID(int trainingID) {
-        this.trainingID = trainingID;
+    public void setTrainingId(int trainingId) {
+        this.trainingId = trainingId;
     }
 
-    public int getUserID() {
-        return userID;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setUserID(int userID) {
-        this.userID = userID;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public int getDurationInMinutes() {
@@ -53,12 +53,12 @@ public class Training {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Training training = (Training) o;
-        return trainingID == training.trainingID && userID == training.userID && durationInMinutes == training.durationInMinutes && date.equals(training.date);
+        return trainingId == training.trainingId && userId == training.userId && durationInMinutes == training.durationInMinutes && date.equals(training.date);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(trainingID, userID, durationInMinutes, date);
+        return Objects.hash(trainingId, userId, durationInMinutes, date);
     }
 
 }
