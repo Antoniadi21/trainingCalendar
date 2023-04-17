@@ -37,7 +37,7 @@ public class DbUtils {
         }
     }
 
-    public static Connection getConnection() {
+    public Connection getConnection() {
         Connection connection = null;
 
         logger.log(Level.INFO, "trying to get connection to db");

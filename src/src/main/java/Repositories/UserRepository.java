@@ -37,8 +37,9 @@ public class UserRepository {
     public List<User> getUserData(String query) {//select id, name, ... instead of select *
         List<User> users = new ArrayList<>();
 
-        logger.log(Level.INFO, "trying to get data from db");
-        try (Connection connection = DbUtils.getConnection();
+        logger.log(Level.INFO, "trying to get data from user");
+        DbUtils dbUtils = new DbUtils();
+        try (Connection connection = dbUtils.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             ResultSet resultSet = preparedStatement.executeQuery();
 
@@ -53,9 +54,9 @@ public class UserRepository {
                 users.add(new User(id, password, login, age, sex, email));
             }
         } catch (SQLException e) {
-            logger.log(Level.SEVERE, "failed to get data from db", e);
+            logger.log(Level.SEVERE, "failed to get data from user", e);
         }
-        logger.log(Level.INFO, "finished getting data from db");
+        logger.log(Level.INFO, "finished getting data from user");
         return users;
     }
 
@@ -63,8 +64,9 @@ public class UserRepository {
         logger.log(Level.INFO, "trying to insert data into user");
         String insertUser = "INSERT INTO \"user\" (\"password\", login, email, user_age, sex_id) " +
                             "VALUES (?, ?, ?, ?, ?)";
+        DbUtils dbUtils = new DbUtils();
 
-        try (Connection connection = DbUtils.getConnection();
+        try (Connection connection = dbUtils.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(insertUser)) {
 
             preparedStatement.setString(1, user.getPassword());
@@ -85,8 +87,9 @@ public class UserRepository {
         String updateUser = "Update \"user\"" +
                             "SET \"password\" = ?, login = ?, email = ?, user_age = ?, sex_id = ?" +
                             "WHERE user_id = ?";
+        DbUtils dbUtils = new DbUtils();
 
-        try (Connection connection = DbUtils.getConnection();
+        try (Connection connection = dbUtils.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(updateUser)) {
 
             preparedStatement.setString(1, user.getPassword());
@@ -107,8 +110,9 @@ public class UserRepository {
         logger.log(Level.INFO, "started trying to delete user");
         String deleteUser = "DELETE FROM \"user\"" +
                             "WHERE user_id = ?";
+        DbUtils dbUtils = new DbUtils();
 
-        try (Connection connection = DbUtils.getConnection();
+        try (Connection connection = dbUtils.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(deleteUser)) {
 
             preparedStatement.setInt(1, id);
