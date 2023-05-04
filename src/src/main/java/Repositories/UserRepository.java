@@ -18,7 +18,7 @@ import java.util.logging.Logger;
 
 public class UserRepository {
     private static final Logger logger = Logger.getLogger(UserRepository.class.getName());
-    private static final String PROPERTIES_PATH = "src/src/main/resources/config.properties";
+    private static final String PROPERTIES_PATH = "D:/labs/java first task/src/src/main/resources/config.properties";
 
     static {
         Properties properties = new Properties();
@@ -32,6 +32,27 @@ public class UserRepository {
         } catch (IOException e) {
             logger.log(Level.SEVERE, "IOException trying to read properties file", e);
         }
+    }
+
+    public User getByLogin(String login) {
+        logger.log(Level.INFO, "trying to get data by login");
+        DbUtils dbUtils = new DbUtils();
+        String query = "SELECT user_id, password, email, user_age, sex_id " +
+                "FROM \"user\" WHERE login = ?";
+
+        try (Connection connection = dbUtils.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(query)){
+            preparedStatement.setString(1, login);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                return new User(resultSet.getInt("user_id"), resultSet.getString("password"),
+                        login, resultSet.getInt("user_age"), resultSet.getInt("sex_id"),
+                        resultSet.getString("email"));
+            }
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, "error trying to get user by login", e);
+        }
+        return null;
     }
 
     public List<User> getUserData(String query) {//select id, name, ... instead of select *

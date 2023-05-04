@@ -2,12 +2,14 @@ package org.example;
 
 import Models.User;
 import Repositories.UserRepository;
-
-import java.util.List;
+import Service.UserService;
 
 public class Main {
+
     public static void main(String[] args) {
-        //List<User> users = UserRepository.getUserData("select * from \"user\"");
-        //System.out.println(users);
+        UserRepository userRepository = new UserRepository();
+        UserService userService = new UserService();
+        User user = userService.login("vya", "vya");
+        System.out.println(user);
     }
 }

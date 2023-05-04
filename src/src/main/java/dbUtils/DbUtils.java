@@ -18,7 +18,7 @@ public class DbUtils {
     private static final Logger logger = Logger.getLogger(DbUtils.class.getName());
     private static String logPath;
 
-    private static final String PROPERTIES_PATH = "src/src/main/resources/config.properties";
+    private static final String PROPERTIES_PATH = "D:/labs/java first task/src/src/main/resources/config.properties";
 
     static {
         Properties properties = new Properties();
