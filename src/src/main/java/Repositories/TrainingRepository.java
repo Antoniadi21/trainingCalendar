@@ -1,7 +1,6 @@
 package Repositories;
 
 import Models.Training;
-import dbUtils.DbUtils;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -18,8 +17,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class TrainingRepository {
-    private static final Logger logger = Logger.getLogger(UserRepository.class.getName());
+    private static final Logger logger = Logger.getLogger(TrainingRepository.class.getName());
     private static final String PROPERTIES_PATH = "src/src/main/resources/config.properties";
+    private final Connection connection;
+
+    public TrainingRepository(Connection connection) {
+        this.connection = connection;
+    }
 
     static {
         Properties properties = new Properties();
@@ -28,93 +32,38 @@ public class TrainingRepository {
             properties.load(fis);
 
             String logPath = properties.getProperty("logger.logPath");
-
             logger.addHandler(new FileHandler(logPath));
         } catch (IOException e) {
             logger.log(Level.SEVERE, "IOException trying to read properties file", e);
         }
     }
 
-    public List<Training> getTrainingData(String query) {
+    public List<Training> getTrainingDataOfUserInMonth(int userId, LocalDate date) throws SQLException {
         List<Training> trainings = new ArrayList<>();
+        String query = "SELECT training_id, duration_in_minutes, type_id, training_date FROM training" +
+                " WHERE user_id = ? AND date_part('MONTH', training_date) = ? AND date_part('YEAR', training_date) = ?";
 
         logger.log(Level.INFO, "trying to get data from db");
-        DbUtils dbUtils = new DbUtils();
-        try (Connection connection = dbUtils.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, userId);
+            preparedStatement.setInt(2, date.getMonthValue());
+            preparedStatement.setInt(3, date.getYear());
             ResultSet resultSet = preparedStatement.executeQuery();
+            TrainingTypeRepository trainingTypeRepository = new TrainingTypeRepository(connection);
 
             while (resultSet.next()) {
+                LocalDate trainingDate = LocalDate.parse(resultSet.getString("training_date"));
                 int id = resultSet.getInt("training_id");
-                int userId = resultSet.getInt("user_id");
+                int type = resultSet.getInt("type_id");
                 int durationInMinutes = resultSet.getInt("duration_in_minutes");
-                LocalDate date = LocalDate.parse(resultSet.getString("training_date"));
 
-                trainings.add(new Training(id, userId, durationInMinutes, date));
+                trainings.add(new Training(id, userId, durationInMinutes, trainingDate, trainingTypeRepository.getTrainingTypeById(type)));
             }
         } catch (SQLException e) {
             logger.log(Level.SEVERE, "failed to get data from training", e);
+            throw e;
         }
         logger.log(Level.INFO, "finished getting data from training");
         return trainings;
-    }
-
-    public void insertTraining(Training training) {
-        logger.log(Level.INFO, "trying to insert data into training");
-        String insertTraining = "INSERT INTO training (user_id, duration_in_minutes, training_date) VALUES(?, ?, ?)";
-        DbUtils dbUtils = new DbUtils();
-
-        try (Connection connection = dbUtils.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(insertTraining)) {
-
-            preparedStatement.setInt(1, training.getUserId());
-            preparedStatement.setInt(2, training.getDurationInMinutes());
-            preparedStatement.setString(3, training.getDate().toString());
-
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            logger.log(Level.SEVERE, "failed to insert data into training", e);
-        }
-        logger.log(Level.INFO, "finished inserting data into training");
-    }
-
-    public void updateTraining(Training training) {
-        logger.log(Level.INFO, "trying to update training");
-        String updateTraining = "Update training " +
-                                "SET user_id = ?, duration_in_minutes = ?, training_date = ? " +
-                                "WHERE training_id = ?";
-        DbUtils dbUtils = new DbUtils();
-
-        try (Connection connection = dbUtils.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(updateTraining)) {
-
-            preparedStatement.setInt(1, training.getUserId());
-            preparedStatement.setInt(2, training.getDurationInMinutes());
-            preparedStatement.setString(3, training.getDate().toString());
-            preparedStatement.setInt(4, training.getTrainingId());
-
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            logger.log(Level.SEVERE, "failed to update training", e);
-        }
-        logger.log(Level.INFO, "finished updating training");
-    }
-
-    public void deleteTraining(int id) {
-        logger.log(Level.INFO, "trying to delete training");
-        String deleteTraining = "DELETE FROM training " +
-                                "WHERE training_id = ?";
-        DbUtils dbUtils = new DbUtils();
-
-        try (Connection connection = dbUtils.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(deleteTraining)) {
-
-            preparedStatement.setInt(1, id);
-            preparedStatement.executeUpdate();
-
-        } catch (SQLException e) {
-            logger.log(Level.SEVERE, "failed to delete user", e);
-        }
-        logger.log(Level.INFO, "finished deleting user");
     }
 }

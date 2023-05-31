@@ -12,13 +12,15 @@ import java.util.logging.Logger;
 
 public class DbUtils {
     // в проперти файл
-    private static String url;
+    private final String url;
     private static String userName;
     private static String password;
     private static final Logger logger = Logger.getLogger(DbUtils.class.getName());
-    private static String logPath;
-
     private static final String PROPERTIES_PATH = "D:/labs/java first task/src/src/main/resources/config.properties";
+
+    public DbUtils(String url) {
+        this.url = url;
+    }
 
     static {
         Properties properties = new Properties();
@@ -26,10 +28,9 @@ public class DbUtils {
         try (FileInputStream fis = new FileInputStream(PROPERTIES_PATH)) {
             properties.load(fis);
 
-            url = properties.getProperty("db.host");
             userName = properties.getProperty("db.userName");
             password = properties.getProperty("db.password");
-            logPath = properties.getProperty("logger.logPath");
+            String logPath = properties.getProperty("logger.logPath");
 
             logger.addHandler(new FileHandler(logPath));
         } catch (IOException e) {
@@ -37,14 +38,15 @@ public class DbUtils {
         }
     }
 
-    public Connection getConnection() {
-        Connection connection = null;
+    public Connection getConnection() throws SQLException {
+        Connection connection;
 
         logger.log(Level.INFO, "trying to get connection to db");
         try {
             connection = DriverManager.getConnection(url, userName, password);
         } catch (SQLException e) {
             logger.log(Level.SEVERE, "SQLException trying to get connection to db", e);
+            throw e;
         }
         logger.log(Level.INFO, "finished trying to ge connection to db");
         return connection;

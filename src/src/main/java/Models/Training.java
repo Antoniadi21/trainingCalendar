@@ -8,12 +8,14 @@ public class Training {
     private int userId;
     private int durationInMinutes;
     private LocalDate date;
+    private TrainingType trainingType;
 
-    public Training(int trainingId, int userId, int durationInMinutes, LocalDate date) {
+    public Training(int trainingId, int userId, int durationInMinutes, LocalDate date, TrainingType trainingType) {
         this.trainingId = trainingId;
         this.userId = userId;
         this.durationInMinutes = durationInMinutes;
         this.date = date;
+        this.trainingType = trainingType;
     }
 
     public int getTrainingId() {
@@ -49,11 +51,22 @@ public class Training {
     }
 
     @Override
+    public String toString() {
+        return "Продолжительность: " + durationInMinutes + " Дата: " + date + " Тип: " + trainingType.getType();
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+
         Training training = (Training) o;
-        return trainingId == training.trainingId && userId == training.userId && durationInMinutes == training.durationInMinutes && date.equals(training.date);
+
+        if (trainingId != training.trainingId) return false;
+        if (userId != training.userId) return false;
+        if (durationInMinutes != training.durationInMinutes) return false;
+        if (!date.equals(training.date)) return false;
+        return trainingType.equals(training.trainingType);
     }
 
     @Override

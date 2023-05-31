@@ -7,7 +7,7 @@ public class User {
     private String password;
     private String login;
     private int age;
-    private int sexId;
+    private Sex sex;
     private String email;
 
     public int getUserId() {
@@ -42,12 +42,8 @@ public class User {
         this.age = age;
     }
 
-    public int getSexId() {
-        return sexId;
-    }
-
-    public void setSexId(int sexId) {
-        this.sexId = sexId;
+    public void setSex(Sex sex) {
+        this.sex = sex;
     }
 
     public String getEmail() {
@@ -65,17 +61,21 @@ public class User {
                 ", password='" + password + '\'' +
                 ", login='" + login + '\'' +
                 ", age=" + age +
-                ", sexId=" + sexId +
+                ", sex=" + sex +
                 ", email='" + email + '\'' +
                 '}';
     }
 
-    public User(int userId, String password, String login, int age, int sexId, String email) {
+    public Sex getSex() {
+        return sex;
+    }
+
+    public User(int userId, String password, String login, int age, Sex sex, String email) {
         this.userId = userId;
         this.password = password;
         this.login = login;
         this.age = age;
-        this.sexId = sexId;
+        this.sex = sex;
         this.email = email;
     }
 
@@ -87,11 +87,11 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return userId == user.userId && age == user.age && sexId == user.sexId && password.equals(user.password) && login.equals(user.login) && email.equals(user.email);
+        return userId == user.userId && age == user.age && password.equals(user.password) && login.equals(user.login) && Objects.equals(sex, user.sex) && email.equals(user.email);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(userId, password, login, age, sexId, email);
+        return Objects.hash(userId, password, login, age, sex, email);
     }
 }

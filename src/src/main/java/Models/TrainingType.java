@@ -2,11 +2,11 @@ package Models;
 
 import java.util.Objects;
 
-public class Training_type {
+public class TrainingType {
     private int trainingId;
     private String type;
 
-    public Training_type(int trainingId, String type) {
+    public TrainingType(int trainingId, String type) {
         this.trainingId = trainingId;
         this.type = type;
     }
@@ -28,11 +28,22 @@ public class Training_type {
     }
 
     @Override
+    public String toString() {
+        return "TrainingType{" +
+                "trainingId=" + trainingId +
+                ", type='" + type + '\'' +
+                '}';
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Training_type that = (Training_type) o;
-        return trainingId == that.trainingId && type.equals(that.type);
+
+        TrainingType that = (TrainingType) o;
+
+        if (trainingId != that.trainingId) return false;
+        return type.equals(that.type);
     }
 
     @Override
