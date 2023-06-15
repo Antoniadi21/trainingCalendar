@@ -4,6 +4,7 @@ import Models.User;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,7 +16,7 @@ import java.util.logging.Logger;
 
 public class UserRepository {
     private static final Logger logger = Logger.getLogger(UserRepository.class.getName());
-    private static final String PROPERTIES_PATH = "D:/labs/java first task/src/src/main/resources/config.properties";
+    private static final String PROPERTIES_PATH = Path.of("main").toAbsolutePath() + "/resources/config.properties";
     private Connection connection;
 
     public UserRepository(Connection connection) {

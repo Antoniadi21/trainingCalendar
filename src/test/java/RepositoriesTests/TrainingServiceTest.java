@@ -10,6 +10,7 @@ import org.junit.Test;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -26,7 +27,7 @@ import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 
 public class TrainingServiceTest {
     private static final Logger logger = Logger.getLogger(TrainingServiceTest.class.getName());
-    private static final String PROPERTIES_PATH = "D:/labs/java first task/src/src/main/resources/config.properties";
+    private static final String PROPERTIES_PATH = Path.of("main").toAbsolutePath() + "/resources/config.properties";
     private TrainingService trainingService;
 
     static {

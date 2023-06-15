@@ -4,6 +4,7 @@ import Models.Training;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,7 +19,7 @@ import java.util.logging.Logger;
 
 public class TrainingRepository {
     private static final Logger logger = Logger.getLogger(TrainingRepository.class.getName());
-    private static final String PROPERTIES_PATH = "src/src/main/resources/config.properties";
+    private static final String PROPERTIES_PATH = Path.of("main").toAbsolutePath() + "/resources/config.properties";
     private final Connection connection;
 
     public TrainingRepository(Connection connection) {
